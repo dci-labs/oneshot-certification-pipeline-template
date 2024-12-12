@@ -138,12 +138,12 @@ test containers in parallel:
     # Define container image tag
     certify_image_tag: "v1"
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/demo-parallel-x1:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x2:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x3:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x4:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x5:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x6:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x1:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x2:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x3:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x4:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x5:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x6:{{ certify_image_tag }}"
   use_previous_topic: true
   inputs:
     kubeconfig: kubeconfig_path
