@@ -1,0 +1,50 @@
+---
+- name: Set container image facts
+  ansible.builtin.set_fact:
+    image_name: "{{ current_container_image.split('@')[0].split(':')[0].split('/')[-1] }}"
+    already_published: false
+
+- name: Get image digest
+  ansible.builtin.shell: >
+    set -eo pipefail;
+    skopeo inspect
+    {% if partner_creds | length %}
+    --authfile {{ partner_creds }}
+    {% else %}
+    --no-creds
+    {% endif %}
+    docker://{{ current_container_image }} | jq -r '.Digest'
+  register: sha
+  retries: 2
+  delay: 30
+  until: sha is succeeded
+
+- name: Debug image digest for {{ image_name }}
+  ansible.builtin.debug:
+    msg: "{{ sha.stdout }}"
+
+- name: Wait for the container image to appear in the catalog
+  vars:
+    catalog_url: "https://catalog.redhat.com/api/containers/v1"         
+    filter_params: "filter=image_id%3D%3D{{ sha.stdout }}%3Brepositories.published%3D%3Dtrue"
+    include_params: "include=data.repositories.published&include=data.repositories.repository"
+  ansible.builtin.uri:
+    url: >
+      {{ catalog_url }}/images?{{ filter_params }}&{{ include_params }}&page_size=1&page=0
+    method: GET
+    status_code: 200
+    timeout: 120
+  register: pyxis_cert_status
+  retries: 70
+  delay: 60
+  until: pyxis_cert_status.json.data | length > 0
+
+- name: set container certification status if already-in-catalog
+  ansible.builtin.set_fact:
+    already_published: "{{ pyxis_cert_status.json.data | length > 0 }}"
+
+- name: Display container certification status when it's on the catalog
+  ansible.builtin.debug:
+    msg: "{{ image_name }} is certified"
+  when: already_published
+...

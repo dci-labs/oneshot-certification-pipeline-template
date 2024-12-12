@@ -1,0 +1,56 @@
+---
+- name: test-container-hooks
+  stage: container
+  topic: OCP-4.13
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["preflight","container","hooks", "post-run"]
+    dci_workarounds: []
+
+    # custom setting
+    organization_id: 15451045
+    page_size: 200
+
+    # check if this container project is already certified when set to false
+    preflight_test_certified_image: false
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+    preflight_run_health_check: false
+
+    preflight_containers_to_certify:
+      - container_image: "quay.io/avu0/oneshot-demo1-nginx-ubi9:1-22"
+        create_container_project: true
+        short_description: "I am doing a full-automation e2e auto-publish for following image demo4-nginx-ubi9"
+        pyxis_product_lists:
+          - "6397a9d2aea4e1694b0fe1c4"
+
+    cert_settings:
+      # container
+      auto_publish: false
+      build_categories: "Standalone image"
+      registry_override_instruct: "These are instructions of how to override settings"
+      email_address: "email@example.com"
+      application_categories: "Networking"
+      os_content_type: "Red Hat Universal Base Image (UBI)"
+      privileged: false
+      release_category: "Generally Available"
+      repository_description: "This is a test repository for one-shot automaiton"
+
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+...

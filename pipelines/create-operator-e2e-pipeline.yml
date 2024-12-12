@@ -1,0 +1,80 @@
+---
+- name: create-operator-e2e
+  stage: workload
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template
+    dci_openshift_app_ns: testns
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["preflight", "container", "e2e-creation", "submission", "pr-merge", "operator", "bundle"]
+
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # custom settings
+    check_for_existing_projects: true
+    organization_id: 12345678
+    page_size: 200
+
+    # check if this container project is already certified when set to false
+    preflight_test_certified_image: false
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+    preflight_run_health_check: false
+
+    # GitHub token to be used to push the chart/operator and the results to a repository
+    # Optional; provide this token when using create_pr option
+    github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
+
+    # List of operators to certify,
+    # you could provide many operators at once.
+    preflight_operators_to_certify:
+      - bundle_image: "quay.io/myuser/simple-demo-operator-bundle:v0.3.1"
+        # Mandatory for the connected environments.
+        index_image: "quay.io/myuser/simple-demo-operator-catalog:v0.3.1"
+        # Optional; provide it when you need to create
+        # a new "Container Image project" and submit test results in it.
+        create_container_project: true
+        # Optional; provide it when you need to create
+        # a new "Operator Bundle Image" and submit test results in it.
+        create_operator_project: true
+        # Required when creating cert project
+        short_description: "Add 50+ characters image description about your application here"
+        # Optional; use it to automatically open cert PR
+        # at the certified-operators repository
+        create_pr: true
+        # Optional. Use this option if you'd like to merge a certification PR at certified-operators
+        merge_pr: true
+        # Product Listings to attach to the cert project (Optional)
+        pyxis_product_lists:
+          - "yyy"
+          - "xxx"
+
+    cert_settings:
+      # Container and Operator
+      auto_publish: true
+      registry_override_instruct: "These are instructions of how to override settings"
+      email_address: "email@email.com"
+      application_categories: "Networking"
+      privileged: false
+      repository_description: "This is a test repository for one-shot automation"
+      build_categories: "Standalone image"
+      os_content_type: "Red Hat Universal Base Image (UBI)"
+      release_category: "Generally Available"
+
+  inputs:
+    kubeconfig: kubeconfig_path
+...
+

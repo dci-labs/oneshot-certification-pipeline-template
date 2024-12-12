@@ -1,0 +1,45 @@
+---
+- name: create-openshift-cnf
+  stage: workload
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_skip_tags:
+    - post-run
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["openshift-cnf", "vendor-validated", "create-openshift-cnf"]
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # custom settings
+    check_for_existing_projects: true
+    organization_id: 15451045
+    page_size: 200
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    cnf_to_certify:
+      - cnf_name: "YingOneShot0.1.5 on OCP4.14"
+        create_cnf_project: true
+        pyxis_product_lists:
+          - "6397a9d2aea4e1694b0fe1c4"
+
+    cert_settings:
+      email_address: "email@redhat.com"
+
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+...

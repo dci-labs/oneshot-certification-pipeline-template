@@ -1,0 +1,61 @@
+---
+- name: test-tnf-certsuite
+  stage: workload
+  prev_stages: [ocp-upgrade, ocp]
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_skip_tags:
+    - post-run
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["chart-tnf", "helmchart", "tnf-v5.3.7", "certsuite"]
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    # run helmchart tests and generate report.yaml
+    do_chart_verifier: true
+    partner_name: "redhat-arkady-test"
+    partner_email: "redhat-arkady-test@redhat.com"
+    github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
+    #sandbox_repository: "ansvu/charts" # if create_pr = true then you can test PR trigger to sandbox_repository
+
+    # Chart-verifier to deploy the chart and generate report.yaml
+    dci_charts:
+      - name: yingoneshotchart
+        chart_file: https://ansvu.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
+        deploy_chart: true
+        flags: "-c -W --helm-install-timeout 5m0s"
+        create_pr: false
+
+    # Certsuite setup
+    do_certsuite: true
+    kbpc_version: "v5.3.7"
+    kbpc_test_labels: common,telco,extended
+      - namespace: oneshot
+        targetpodlabels:
+          - app=oneshot
+        targetoperatorlabels: []
+        target_crds: []
+        exclude_connectivity_regexp: ""
+    kbpc_allow_preflight_insecure: false
+    kbpc_enable_xml_creation: true
+    kbpc_non_intrusive_only: true
+    kbpc_log_level: trace
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+...

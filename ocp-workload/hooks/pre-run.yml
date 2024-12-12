@@ -1,0 +1,8 @@
+---
+- name: "Test hook"
+  set_fact:
+    testme: "v9999"
+
+- name: "print debug"
+  debug:
+    msg: "deubg: {{ testme }}"

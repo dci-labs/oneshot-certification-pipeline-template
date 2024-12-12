@@ -1,0 +1,67 @@
+---
+- name: oneshot-helmchart
+  stage: workload
+  prev_stages: container
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_skip_tags:
+    - post-run
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["oneshot", "helmchart", "helmchart-pr", "step2"]
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    organization_id: 15451045
+    page_size: 200
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    # run helmchart tests and generate report.yaml
+    do_chart_verifier: true
+    partner_name: "redhat-arkady-test"
+    partner_email: "redhat-arkady-test@redhat.com"
+    github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
+
+    # create helmchart cert project at connect
+    helmchart_to_certify:
+      - repository: "https://github.com/ansvu/yingoneshotchart"
+        short_description: "This is a test for one shot automation together with container+chart+helmchart-pr"
+        chart_name: "yingoneshotchart"
+        create_helmchart_project: true
+        pyxis_product_lists:
+          - "6397a9d2aea4e1694b0fe1c4"
+
+    dci_charts:
+      - name: yingoneshotchart
+        chart_file: https://ansvu.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
+        deploy_chart: true
+        flags: "-W --helm-install-timeout 5m0s"
+        create_pr: true
+
+    # update the cert project for helm chart
+    cert_settings:
+      # helmchart
+      email_address: "email@redhat.com"
+      application_categories: "Networking"
+      github_usernames: "email"
+      long_description: "This is a long 100+ characters description about this sample chart"
+      distribution_method: "undistributed"
+      distribution_instructions: "Instruction how to get this helm-chart"
+
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+...

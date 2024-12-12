@@ -1,0 +1,45 @@
+---
+- name: test-operator-sanity
+  stage: workload
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template
+    dci_openshift_app_ns: testns
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["preflight", "sanity-checking", "operator", "bundle"]
+
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    # List of operators to sanit checking,
+    # you could provide many operators at once.
+    preflight_operators_to_certify:
+      - bundle_image: "quay.io/myuser/simple-demo1-operator-bundle:v0.3.1"
+        # Mandatory for the connected environments.
+        index_image: "quay.io/myuser/simple-demo1-operator-catalog:v0.3.1"
+
+      - bundle_image: "quay.io/myuser/simple-demo2-operator-bundle:v0.3.1"
+        # Mandatory for the connected environments.
+        index_image: "quay.io/myuser/simple-demo2-operator-catalog:v0.3.1"
+        
+      - bundle_image: "quay.io/myuser/simple-demo3-operator-bundle:v0.3.1"
+        # Mandatory for the connected environments.
+        index_image: "quay.io/myuser/simple-demo3-operator-catalog:v0.3.1"        
+  inputs:
+    kubeconfig: kubeconfig_path
+...
+

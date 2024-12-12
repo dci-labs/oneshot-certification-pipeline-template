@@ -1,0 +1,64 @@
+---
+- name: create-container-e2e
+  stage: workload
+  topic: OCP-4.14
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template
+    dci_openshift_app_ns: testns
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["preflight", "container", "e2e-creation", "submission", "attach-pls", "hooks", "post-run"]
+
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # custom settings
+    check_for_existing_projects: true
+    organization_id: 15451045
+    page_size: 200
+
+    # check if this container project is already certified when set to false
+    preflight_test_certified_image: false
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+    preflight_run_health_check: false
+
+    certify_image_tag: "1-22"
+    preflight_containers_to_certify:
+      - container_image: "quay.io/avu0/demo1-nginx-ubi9:{{ certify_image_tag }}"
+        create_container_project: true
+        short_description: "Add 50+ characters image description here"
+        pyxis_product_lists:
+          - "639b4bfd27b76af009e324cb"
+          - "6397a9d2aea4e1694b0fe1c4"
+      - container_image: "quay.io/avu0/demo3-nginx-ubi9:{{ certify_image_tag }}"
+        create_container_project: true
+        short_description: "Add 50+ characters image description here"
+        pyxis_product_lists:
+          - "639b4bfd27b76af009e324cb"
+    cert_settings:
+      # container
+      auto_publish: true
+      build_categories: "Standalone image"
+      registry_override_instruct: "These are instructions of how to override settings"
+      email_address: "email@redhat.com"
+      application_categories: "Networking"
+      os_content_type: "Red Hat Universal Base Image (UBI)"
+      privileged: false
+      release_category: "Generally Available"
+      repository_description: "This is a test repository for one-shot automation"
+
+  inputs:
+    kubeconfig: kubeconfig_path
+...

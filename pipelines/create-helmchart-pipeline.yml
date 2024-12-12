@@ -1,0 +1,54 @@
+---
+- name: create-helmchart
+  stage: workload
+  topic: OCP-4.13
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  ansible_skip_tags:
+    - post-run
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_openshift_app_ns: testns
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["helmchart", "create-helmchart", "attach-pl", "e2e"]
+    dci_workarounds: []
+
+    # docker auth and backend access
+    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # custom settings
+    check_for_existing_projects: true
+    organization_id: 15451045
+    page_size: 200
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    helmchart_to_certify:
+      - repository: "https://github.com/ansvu/testchartpr1"
+        short_description: "This is a short description testchartprrrrrrrrrrrrrrrr"
+        chart_name: "testchartpr1"
+        create_helmchart_project: true
+        pyxis_product_lists:
+          - "639b4bfd27b76af009e324cb"
+
+    cert_settings:
+      email_address: "email@redhat.com"
+      distribution_method: "undistributed"
+      github_usernames: "email"
+      application_categories: "Networking"
+      long_description: "This is a long description about this sample chart"
+      distribution_instructions: "You must go to the unknown to get this helm-chart!"
+
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+  success_tag: helm-charts-ok
+...
