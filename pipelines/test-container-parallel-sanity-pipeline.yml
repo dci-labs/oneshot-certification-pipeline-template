@@ -1,11 +1,12 @@
 ---
 - name: test-container-parallel-sanity
   stage: container
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -18,7 +19,7 @@
     dci_workarounds: []
 
     # custom setting
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # docker auth and backend access
@@ -38,26 +39,26 @@
     # Define container image tag
     certify_image_tag: "v1"
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/demo-parallel-x1:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x2:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x3:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x4:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x5:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x6:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x7:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x8:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x9:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x10:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x11:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x12:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x13:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x14:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x15:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x16:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x17:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x18:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x19:{{ certify_image_tag }}"
-      - container_image: "quay.io/avu0/demo-parallel-x20:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x1:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x2:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x3:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x4:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x5:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x6:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x7:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x8:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x9:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x10:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x11:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x12:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x13:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x14:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x15:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x16:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x17:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x18:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x19:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x20:{{ certify_image_tag }}"
 
   use_previous_topic: true
   inputs:

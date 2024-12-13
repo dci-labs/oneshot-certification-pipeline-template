@@ -1,11 +1,12 @@
 ---
 - name: test-container-parallel-recertify
   stage: container
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -18,7 +19,7 @@
     dci_workarounds: []
 
     # custom setting
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # docker auth and backend access
@@ -38,14 +39,14 @@
     # Define container image tag
     certify_image_tag: "1-22"
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/demo1-nginx-ubi9:{{ certify_image_tag }}"
-        pyxis_container_identifier: "65f982067e146e60a1fef87f"
-      - container_image: "quay.io/avu0/demo2-nginx-ubi9:{{ certify_image_tag }}"
-        pyxis_container_identifier: "65b1b1d1a3d7788c9d874521"
-      - container_image: "quay.io/avu0/demo3-nginx-ubi9:{{ certify_image_tag }}"
-        pyxis_container_identifier: "65f982a1f59e803922cbd3d2"
-      - container_image: "quay.io/avu0/demo5-nginx-ubi9:{{ certify_image_tag }}"
-        pyxis_container_identifier: "663d4dc2601da16bedc8885d"
+      - container_image: "quay.io/user1/demo1-nginx-ubi9:{{ certify_image_tag }}"
+        pyxis_container_identifier: "1111111111111111"
+      - container_image: "quay.io/user1/demo2-nginx-ubi9:{{ certify_image_tag }}"
+        pyxis_container_identifier: "2222222222222222"
+      - container_image: "quay.io/user1/demo3-nginx-ubi9:{{ certify_image_tag }}"
+        pyxis_container_identifier: "3333333333333333"
+      - container_image: "quay.io/user1/demo5-nginx-ubi9:{{ certify_image_tag }}"
+        pyxis_container_identifier: "4444444444444444"
 
   use_previous_topic: true
   inputs:

@@ -16,7 +16,7 @@
     dci_workarounds: []
 
     # custom setting
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # check if this container project is already certified when set to false
@@ -32,11 +32,11 @@
     preflight_run_health_check: false
 
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/oneshot-demo1-nginx-ubi9:1-22"
+      - container_image: "quay.io/user1/oneshot-demo1-nginx-ubi9:1-22"
         create_container_project: true
-        short_description: "I am doing a full-automation e2e auto-publish for following image demo4-nginx-ubi9"
+        short_description: "Add 50+ characters image description here"
         pyxis_product_lists:
-          - "6397a9d2aea4e1694b0fe1c4"
+          - "xxx"
 
     cert_settings:
       # container

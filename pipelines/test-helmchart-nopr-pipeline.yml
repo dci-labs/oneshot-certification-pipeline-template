@@ -2,11 +2,12 @@
 - name: test-helmchart-nopr
   stage: workload
   prev_stages: container
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -29,13 +30,13 @@
     # helmchart report.yaml
     do_chart_verifier: true
 
-    partner_name: "redhat-arkady-test"
-    partner_email: "redhat-arkady-test@redhat.com"
+    partner_name: "user1"
+    partner_email: "user1@email.com"
     github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
     dci_charts:
       - name: finalchart
-        chart_file: https://ansvu.github.io/oneshotchart/oneshotchart-0.1.4.tgz
+        chart_file: https://myuser.github.io/oneshotchart/oneshotchart-0.1.4.tgz
         deploy_chart: true
         flags: "-W --helm-install-timeout 5m0s"
         create_pr: false

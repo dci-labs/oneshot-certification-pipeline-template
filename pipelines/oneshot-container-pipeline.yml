@@ -2,7 +2,7 @@
 - name: oneshot-container
   stage: container
   prev_stages: [ocp-upgrade, ocp]
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
@@ -16,7 +16,7 @@
     dci_tags: ["oneshot", "preflight", "container", "oneshot-certification", "step1"]
     dci_workarounds: []
 
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # docker auth and backend access
@@ -34,11 +34,11 @@
     # create cert project, and submit tests results
     certify_image_tag: "1-22"
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/oneshot-demo2-nginx-ubi9:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/oneshot-demo2-nginx-ubi9:{{ certify_image_tag }}"
         create_container_project: true
         short_description: "Add 50+ characters image description here"
         pyxis_product_lists:
-          - "6397a9d2aea4e1694b0fe1c4"
+          - "xxx"
 
     # update the cert project for container
     cert_settings:
@@ -46,7 +46,7 @@
       auto_publish: true
       build_categories: "Standalone image"
       registry_override_instruct: "These are instructions of how to override settings"
-      email_address: "email@redhat.com"
+      email_address: "email@email.com"
       application_categories: "Networking"
       os_content_type: "Red Hat Universal Base Image (UBI)"
       privileged: false

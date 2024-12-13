@@ -2,9 +2,10 @@
 - name: oneshot-helmchart
   stage: workload
   prev_stages: container
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
@@ -22,7 +23,7 @@
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # reduce the job duration
@@ -31,22 +32,22 @@
 
     # run helmchart tests and generate report.yaml
     do_chart_verifier: true
-    partner_name: "redhat-arkady-test"
-    partner_email: "redhat-arkady-test@redhat.com"
+    partner_name: "user1"
+    partner_email: "user1@email.com"
     github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
     # create helmchart cert project at connect
     helmchart_to_certify:
-      - repository: "https://github.com/ansvu/yingoneshotchart"
+      - repository: "https://github.com/myuser/yingoneshotchart"
         short_description: "This is a test for one shot automation together with container+chart+helmchart-pr"
         chart_name: "yingoneshotchart"
         create_helmchart_project: true
         pyxis_product_lists:
-          - "6397a9d2aea4e1694b0fe1c4"
+          - "xxx"
 
     dci_charts:
       - name: yingoneshotchart
-        chart_file: https://ansvu.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
+        chart_file: https://myuser.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
         deploy_chart: true
         flags: "-W --helm-install-timeout 5m0s"
         create_pr: true
@@ -54,7 +55,7 @@
     # update the cert project for helm chart
     cert_settings:
       # helmchart
-      email_address: "email@redhat.com"
+      email_address: "email@email.com"
       application_categories: "Networking"
       github_usernames: "email"
       long_description: "This is a long 100+ characters description about this sample chart"
