@@ -6,6 +6,7 @@
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # If not used hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -24,7 +25,7 @@
 
     # custom settings
     check_for_existing_projects: true
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # reduce the job duration
@@ -32,15 +33,15 @@
     check_workload_api: false
 
     helmchart_to_certify:
-      - repository: "https://github.com/ansvu/testchartpr1"
+      - repository: "https://github.com/myuser/testchartpr1"
         short_description: "This is a short description testchartprrrrrrrrrrrrrrrr"
         chart_name: "testchartpr1"
         create_helmchart_project: true
         pyxis_product_lists:
-          - "639b4bfd27b76af009e324cb"
+          - "xxx"
 
     cert_settings:
-      email_address: "email@redhat.com"
+      email_address: "email@email.com"
       distribution_method: "undistributed"
       github_usernames: "email"
       application_categories: "Networking"

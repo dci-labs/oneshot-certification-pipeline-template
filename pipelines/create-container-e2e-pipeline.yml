@@ -1,11 +1,15 @@
 ---
 - name: create-container-e2e
   stage: workload
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # If not used hooks then skip the post-run
+  # For this use-case if you want to wait for containers to be published then uncomment next two lines
+  #ansible_skip_tags:
+  #  - post-run
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
     dci_config_dir: ~/oneshot-certification-pipeline-template
@@ -23,7 +27,7 @@
 
     # custom settings
     check_for_existing_projects: true
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # check if this container project is already certified when set to false
@@ -36,23 +40,24 @@
 
     certify_image_tag: "1-22"
     preflight_containers_to_certify:
-      - container_image: "quay.io/avu0/demo1-nginx-ubi9:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo1-nginx-ubi9:{{ certify_image_tag }}"
         create_container_project: true
         short_description: "Add 50+ characters image description here"
         pyxis_product_lists:
-          - "639b4bfd27b76af009e324cb"
-          - "6397a9d2aea4e1694b0fe1c4"
-      - container_image: "quay.io/avu0/demo3-nginx-ubi9:{{ certify_image_tag }}"
+          - "xxx"
+          - "yyy"
+      - container_image: "quay.io/user1/demo3-nginx-ubi9:{{ certify_image_tag }}"
         create_container_project: true
         short_description: "Add 50+ characters image description here"
         pyxis_product_lists:
-          - "639b4bfd27b76af009e324cb"
+          - "xxx"
     cert_settings:
       # container
-      auto_publish: true
+      # If partners want to do automatic container publish then set this auto_publish to true
+      auto_publish: false
       build_categories: "Standalone image"
       registry_override_instruct: "These are instructions of how to override settings"
-      email_address: "email@redhat.com"
+      email_address: "email@email.com"
       application_categories: "Networking"
       os_content_type: "Red Hat Universal Base Image (UBI)"
       privileged: false

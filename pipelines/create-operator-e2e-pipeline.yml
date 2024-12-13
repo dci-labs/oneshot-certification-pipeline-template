@@ -1,11 +1,14 @@
 ---
 - name: create-operator-e2e
   stage: workload
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
+  ansible_skip_tags:
+    - post-run
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
     dci_config_dir: ~/oneshot-certification-pipeline-template
@@ -59,8 +62,8 @@
         merge_pr: true
         # Product Listings to attach to the cert project (Optional)
         pyxis_product_lists:
-          - "yyy"
           - "xxx"
+          - "yyy"
 
     cert_settings:
       # Container and Operator

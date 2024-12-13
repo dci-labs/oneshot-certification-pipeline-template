@@ -1,11 +1,12 @@
 ---
 - name: create-openshift-cnf
   stage: workload
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -23,7 +24,7 @@
 
     # custom settings
     check_for_existing_projects: true
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # reduce the job duration
@@ -34,10 +35,10 @@
       - cnf_name: "YingOneShot0.1.5 on OCP4.14"
         create_cnf_project: true
         pyxis_product_lists:
-          - "6397a9d2aea4e1694b0fe1c4"
+          - "xxx"
 
     cert_settings:
-      email_address: "email@redhat.com"
+      email_address: "email@email.com"
 
   use_previous_topic: true
   inputs:

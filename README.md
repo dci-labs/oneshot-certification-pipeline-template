@@ -15,7 +15,7 @@ Then, create the required directories and files for DCI Pipeline to work:
 ```ShellSession
 $ su - dci-openshift-app-agent
 $ cd ~
-$ git clone git@github.com:ansvu/oneshot-certification-pipeline-template.git
+$ git clone git@github.com:dci-labs/oneshot-certification-pipeline-template.git
 $ mv oneshot-certification-pipeline-template to-your-custom-pipeline-name
 $ mkdir -p dci-cache-dir upload-errors .config/dci-pipeline
 $ cat > .config/dci-pipeline/config <<EOF
@@ -101,7 +101,7 @@ test containers in parallel:
 ---
 - name: test-container-parallel-sanity
   stage: container
-  topic: OCP-4.14
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
@@ -118,7 +118,7 @@ test containers in parallel:
     dci_workarounds: []
 
     # custom setting
-    organization_id: 15451045
+    organization_id: 12345678
     page_size: 200
 
     # docker auth and backend access
@@ -168,7 +168,7 @@ $ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule oneshot-container oneshot-helmcha
 ```
 
 ## DCI Pipeline templates info
-More template examples are stored [here](https://github.com/ansvu/oneshot-certification-pipeline-template/tree/main/pipelines)
+More template examples are stored [here](https://github.com/dci-labs/oneshot-certification-pipeline-template/tree/main/pipelines)
 
 Final note: If you plan to create any new custom DCI Pipeline settings, and it is not used with `oneshot-certification` use-case, then you must add the following to your new DCI Pipeline setting:
 ```yaml
