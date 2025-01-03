@@ -1,5 +1,6 @@
 ---
-- name: test-helmchart-tnf
+# Run Chart-verifier test and leave CNF deployed and then running the KBPC(K8s Best Practice Certsuite) against the CNF
+- name: kbpc-preliminary-check-only
   stage: workload
   prev_stages: [ocp-upgrade, ocp]
   topic: OCP-4.16

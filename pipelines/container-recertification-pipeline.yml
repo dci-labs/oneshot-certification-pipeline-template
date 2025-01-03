@@ -1,5 +1,6 @@
 ---
-- name: test-container-parallel-recertify
+# Recertify existing container projects for new container images:preflight check, submit, auto-publish and verify publification status
+- name: container-recertification
   stage: container
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
@@ -7,8 +8,8 @@
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
   # This use-case is not needed to use hooks then skip the post-run
-  ansible_skip_tags:
-    - post-run
+  # ansible_skip_tags:
+  #  - post-run
   ansible_extravars:
     dci_cache_dir: ~/dci-cache-dir
     dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload

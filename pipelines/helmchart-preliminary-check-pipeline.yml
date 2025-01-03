@@ -1,5 +1,6 @@
 ---
-- name: test-helmchart-nopr
+# Run chart-verifier against the CNF and generate report.yaml only
+- name: helmchart-preliminary-check
   stage: workload
   prev_stages: container
   topic: OCP-4.16

@@ -1,5 +1,6 @@
 ---
-- name: create-container-e2e
+# Create container project, prefligh check, submit, auto-publish and verify container publification status from catalog
+- name: container-certification
   stage: workload
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
@@ -54,7 +55,7 @@
     cert_settings:
       # container
       # If partners want to do automatic container publish then set this auto_publish to true
-      auto_publish: false
+      auto_publish: true
       build_categories: "Standalone image"
       registry_override_instruct: "These are instructions of how to override settings"
       email_address: "email@email.com"
