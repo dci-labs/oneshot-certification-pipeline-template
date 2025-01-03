@@ -1,5 +1,6 @@
 ---
-- name: test-container-parallel-sanity
+# Prelight check the container images only
+- name: container-preliminary-check
   stage: container
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml

@@ -1,7 +1,7 @@
 ---
 - name: create-helmchart
   stage: workload
-  topic: OCP-4.13
+  topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml

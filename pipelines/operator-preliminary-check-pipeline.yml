@@ -1,5 +1,6 @@
 ---
-- name: test-operator-sanity
+# Prelight check for operator bundle image for preliminary test.
+- name: operator-preliminary-check
   stage: workload
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml

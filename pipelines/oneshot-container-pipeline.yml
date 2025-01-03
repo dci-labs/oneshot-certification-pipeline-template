@@ -1,4 +1,5 @@
 ---
+# Create container project, prefligh check, submit, auto-publish and verify container publification status from catalog in parallel
 - name: oneshot-container
   stage: container
   prev_stages: [ocp-upgrade, ocp]
@@ -29,6 +30,10 @@
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
+
+    # test container recertify in parallel
+    do_container_parallel_test: true
+    max_images_per_batch: 2
 
     # run preflight check container tests,
     # create cert project, and submit tests results
