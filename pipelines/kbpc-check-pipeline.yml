@@ -1,5 +1,6 @@
 ---
-- name: test-tnf-certsuite
+# Run K8s Best practice Certification Suite which can be used for preliminary or normal checking. 
+- name: kbpc-check
   stage: workload
   prev_stages: [ocp-upgrade, ocp]
   topic: OCP-4.16

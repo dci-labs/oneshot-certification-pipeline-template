@@ -1,4 +1,5 @@
 ---
+# It will create container and bundle projects, update, attach PL, preflight/submit and operator will do PR request
 - name: oneshot-operator
   stage: workload
   topic: OCP-4.16

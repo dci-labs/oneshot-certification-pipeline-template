@@ -1,4 +1,5 @@
 ---
+# Create openshift-cnf(vendor validate project) and attach product-listing
 - name: create-openshift-cnf
   stage: workload
   topic: OCP-4.16
