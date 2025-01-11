@@ -1,4 +1,6 @@
 ---
+# This template chain with container stage, so it waits for oneshot-container to finish/succeed then it starts
+# It will create helmchart project, update, attach PL, run chart-verifier and do PR merge to charts repository
 - name: oneshot-helmchart
   stage: workload
   prev_stages: container
