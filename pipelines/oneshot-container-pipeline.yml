@@ -24,6 +24,10 @@
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
+    # Optional, provide it if your registry is self-signed
+    # If registry is private and TLS enabled, it's mandatory
+    preflight_custom_ca: "/var/lib/dci-openshift-agent/registry/certs/cert.ca"
+
     # check if this container project is already certified when set to false
     preflight_test_certified_image: false
 
