@@ -178,3 +178,9 @@ Final note: If you plan to create any new custom DCI Pipeline settings, and it i
 What it does is, it will skip to hooks that use post-run to wait for the container certification status from the catalog. 
 There are examples from other settings in the `pipelines` directory.
 
+## How to check DCI PIPELINE Queue Log
+Do a `tail -f` from following log indices.
+```bash
+tail -f ~/.dci-queue/log/pool/
+1  2  3  4  5  6  
+```

@@ -32,7 +32,7 @@
     # custom settings
     check_for_existing_projects: true
     organization_id: 12345678
-    page_size: 200
+    # page_size: 200
 
     # check if this container project is already certified when set to false
     preflight_test_certified_image: false

@@ -46,6 +46,7 @@
     do_certsuite: true
     kbpc_version: "v5.3.7"
     kbpc_test_labels: common,telco,extended
+    kbpc_test_config:
       - namespace: oneshot
         targetpodlabels:
           - app=oneshot

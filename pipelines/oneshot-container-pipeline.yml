@@ -14,11 +14,11 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["oneshot", "preflight", "container", "oneshot-certification", "step1"]
+    dci_tags: ["parallelization", "preflight", "container", "oneshot-certification", "step1"]
     dci_workarounds: []
 
     organization_id: 12345678
-    page_size: 200
+    # page_size: 200
 
     # docker auth and backend access
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
@@ -34,6 +34,7 @@
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
+    preflight_run_health_check: false
 
     # test container recertify in parallel
     do_container_parallel_test: true

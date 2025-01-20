@@ -36,7 +36,7 @@
     github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
     dci_charts:
-      - name: finalchart
+      - name: oneshotchart
         chart_file: https://myuser.github.io/oneshotchart/oneshotchart-0.1.4.tgz
         deploy_chart: true
         flags: "-W --helm-install-timeout 5m0s"
