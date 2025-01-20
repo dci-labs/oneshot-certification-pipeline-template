@@ -17,7 +17,7 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["chart-tnf", "helmchart", "tnf-v5.3.7", "Certsuite", "combo"]
+    dci_tags: ["chart-kpbc", "helmchart", "tnf-v5.4.1", "Certsuite", "combo"]
     dci_workarounds: []
 
     # docker auth and backend access
@@ -38,13 +38,18 @@
     dci_charts:
       - name: yingoneshotchart
         chart_file: https://myuser.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
+        # Remote, locally and with multi-values
+        #values_file:
+        #  - https://raw.githubusercontent.com/ansvu/samplechart/main/samplechart/values.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
         deploy_chart: true
         flags: "-c -W --helm-install-timeout 5m0s"
         create_pr: false
 
     # Certsuite setup
     do_certsuite: true
-    kbpc_version: "v5.3.7"
+    kbpc_version: "v5.4.1"
     kbpc_test_labels: common,telco,extended
     kbpc_test_config:
       - namespace: oneshot
