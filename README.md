@@ -42,6 +42,25 @@ The inventories are set `dci-queue` to be used with the following settings:
 $ dci-queue add-pool pool
 $ dci-queue add-resource pool cluster1
 ```
+## Automatic Setup Custom DCI Pipeline
+Under `helper/setup_oneshot_pipeline.sh`, this script can automatic create and setup the custom-pipeline name automatic.
+
+Usage: 
+```bash
+❯ bash helper/setup_oneshot_pipeline.sh
+Usage: helper/setup_oneshot_pipeline.sh <custom_pipeline_name>
+
+❯ bash helper/setup_oneshot_pipeline.sh alex-oneshot-dci-pipeline
+custom_pipeline_name: alex-oneshot-dci-pipeline
+SSH authentication to GitHub succeeded.
+Cloned this git@github.com:dci-labs/oneshot-certification-pipeline-template.git Successfully!
+Configuration file created at .config/dci-pipeline/config.
+Replaced placeholders in pipeline files.
+Adding pool 'pool' to the DCI queue...
+crontab: installing new crontab
+Adding resource 'cluster1' to pool 'pool'...
+Setup completed successfully for pipeline: alex-oneshot-dci-pipeline
+```
 
 ## Launching a DCI job with dci-pipeline-schedule
 
@@ -99,13 +118,15 @@ You can enable this feature by add them as following:
 test containers in parallel:
 ```yaml
 ---
-- name: test-container-parallel-sanity
+# Prelight check the container images only
+- name: container-preliminary-check
   stage: container
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
   ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
   dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
   ansible_skip_tags:
     - post-run
   ansible_extravars:
@@ -114,16 +135,20 @@ test containers in parallel:
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["sanity-check", "submision","preflight","container","async", "parallel"]
+    dci_tags: ["preliminary-check", "submision","preflight","container","async", "parallel"]
     dci_workarounds: []
 
     # custom setting
     organization_id: 12345678
-    page_size: 200
+    # page_size: 200
 
     # docker auth and backend access
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+
+    # Optional, provide it if your registry is self-signed
+    # If registry is private and TLS enabled, it's mandatory
+    preflight_custom_ca: "/var/lib/dci-openshift-agent/registry/certs/cert.ca"
 
     # reduce the job duration
     do_must_gather: false
@@ -144,6 +169,21 @@ test containers in parallel:
       - container_image: "quay.io/user1/demo-parallel-x4:{{ certify_image_tag }}"
       - container_image: "quay.io/user1/demo-parallel-x5:{{ certify_image_tag }}"
       - container_image: "quay.io/user1/demo-parallel-x6:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x7:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x8:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x9:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x10:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x11:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x12:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x13:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x14:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x15:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x16:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x17:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x18:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x19:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo-parallel-x20:{{ certify_image_tag }}"
+
   use_previous_topic: true
   inputs:
     kubeconfig: kubeconfig_path

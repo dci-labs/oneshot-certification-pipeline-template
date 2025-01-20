@@ -50,6 +50,11 @@
     dci_charts:
       - name: yingoneshotchart
         chart_file: https://myuser.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
+        # Remote, locally and with multi-values
+        #values_file:
+        #  - https://raw.githubusercontent.com/ansvu/samplechart/main/samplechart/values.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
         deploy_chart: true
         flags: "-c -W --helm-install-timeout 5m0s"
         create_pr: true
