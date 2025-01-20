@@ -26,7 +26,7 @@
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     organization_id: 12345678
-    page_size: 200
+    # page_size: 200
 
     # reduce the job duration
     do_must_gather: false
@@ -51,7 +51,7 @@
       - name: yingoneshotchart
         chart_file: https://myuser.github.io/yingoneshotchart/yingoneshotchart-0.1.5.tgz
         deploy_chart: true
-        flags: "-W --helm-install-timeout 5m0s"
+        flags: "-c -W --helm-install-timeout 5m0s"
         create_pr: true
 
     # update the cert project for helm chart

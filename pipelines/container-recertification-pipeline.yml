@@ -21,7 +21,7 @@
 
     # custom setting
     organization_id: 12345678
-    page_size: 200
+    # page_size: 200
 
     # docker auth and backend access
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
