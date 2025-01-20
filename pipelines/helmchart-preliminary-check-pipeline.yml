@@ -38,6 +38,11 @@
     dci_charts:
       - name: oneshotchart
         chart_file: https://myuser.github.io/oneshotchart/oneshotchart-0.1.4.tgz
+        # Remote, locally and with multi-values
+        #values_file:
+        #  - https://raw.githubusercontent.com/ansvu/samplechart/main/samplechart/values.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
         deploy_chart: true
         flags: "-W --helm-install-timeout 5m0s"
         create_pr: false
