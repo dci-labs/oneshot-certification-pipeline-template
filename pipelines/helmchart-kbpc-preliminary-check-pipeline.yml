@@ -49,7 +49,7 @@
 
     # Certsuite setup
     do_certsuite: true
-    kbpc_version: "v5.3.7"
+    kbpc_version: "v5.4.1"
     kbpc_test_labels: common,telco,extended
     kbpc_test_config:
       - namespace: oneshot
