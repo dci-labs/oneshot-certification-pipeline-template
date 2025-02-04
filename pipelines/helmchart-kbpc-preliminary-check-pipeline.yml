@@ -17,7 +17,7 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["chart-kpbc", "helmchart", "tnf-v5.4.1", "Certsuite", "combo"]
+    dci_tags: ["chart-kbpc", "helmchart", "kbpc-v5.4.1", "Certsuite", "combo"]
     dci_workarounds: []
 
     # docker auth and backend access
@@ -30,7 +30,7 @@
 
     # run helmchart tests and generate report.yaml
     do_chart_verifier: true
-    partner_name: "user1"
+    partner_name: "user1" # part_name is the name of Container Registry Namespace from connected.redhat.com
     partner_email: "user1@email.com"
     github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
@@ -44,6 +44,8 @@
         #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
         #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
         deploy_chart: true
+        # -c=skipped cleanup e.g. teardown the CNF deployment and leave it running
+        # -W=WebCatalogOnly - meaning only report.yaml will copy the charts/repo
         flags: "-c -W --helm-install-timeout 5m0s"
         create_pr: false
 

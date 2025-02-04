@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 # Purpose: To setup a DCI PIPELNE for oneshot certification automatically.
-# Althought it aims for oneshot certification setup but also it can use for other use-cases
-# like preliminary checking for container/operator, helmchart and KPBC testing.
+# Although it aims for oneshot certification setup but also it can use for other use-cases
+# like preliminary checking for container/operator, helmchart and KBPC testing.
 #
 # Exit on error except for the SSH check
 # set -e
