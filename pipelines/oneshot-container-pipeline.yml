@@ -36,7 +36,7 @@
     check_workload_api: false
     preflight_run_health_check: false
 
-    # test container recertify in parallel
+    # test container images in parallel 
     do_container_parallel_test: true
     max_images_per_batch: 2
 
@@ -44,9 +44,20 @@
     # create cert project, and submit tests results
     certify_image_tag: "1-22"
     preflight_containers_to_certify:
-      - container_image: "quay.io/user1/oneshot-demo2-nginx-ubi9:{{ certify_image_tag }}"
+      - container_image: "quay.io/user1/demo1-nginx-ubi9:{{ certify_image_tag }}"
         create_container_project: true
-        short_description: "Add 50+ characters image description here"
+        short_description: "Add 50+ characters are mandatory for image short description"
+        pyxis_product_lists:
+          - "xxx"
+          - "yyy"
+      - container_image: "quay.io/user1/demo2-nginx-ubi9:{{ certify_image_tag }}"
+        create_container_project: true
+        short_description: "Add 50+ characters are mandatory for image short description"
+        pyxis_product_lists:
+          - "xxx"
+      - container_image: "quay.io/user1/demo3-nginx-ubi9:{{ certify_image_tag }}"
+        create_container_project: true
+        short_description: "Add 50+ characters are mandatory for image short description"
         pyxis_product_lists:
           - "xxx"
 

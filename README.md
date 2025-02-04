@@ -43,7 +43,7 @@ $ dci-queue add-pool pool
 $ dci-queue add-resource pool cluster1
 ```
 ## Automatic Setup Custom DCI Pipeline
-Under `helper/setup_oneshot_pipeline.sh`, this script can automatic create and setup the custom-pipeline name automatic.
+Under `helper/setup_oneshot_pipeline.sh`, this script can automatic create and setup the custom-pipeline name.
 
 Usage: 
 ```bash
@@ -192,7 +192,7 @@ test containers in parallel:
 
 Note: You have to becareful with this parameter `max_images_per_batch`, since it requires to determine the Maximum number of images that will allow to run `preflight` check the containers in parallel. 
 If you have a physical jumphost BM, then you can define up to `max_images_per_batch: 10`. We tested with `15` when free memory is 55G. 
-If you have a VM as DCI machine, then please update as `2-3` images per batch. 
+If you have a VM as DCI machine 12vCPUs and 20G Memory, then please update up to 4 images per batch.
 
 ## How to run Oneshot Certification with all green-scenario
 In this use-case, it expects all container images and helmchart report.yaml test cases are `PASSED`.
@@ -224,3 +224,34 @@ Do a `tail -f` from following log indices.
 tail -f ~/.dci-queue/log/pool/
 1  2  3  4  5  6  
 ```
+
+## How to DCI Queue and Unschedule
+
+- How to remove pool
+```
+$ dci-queue list pool
+Resources on the pool pool: cluster1
+Available resources on the pool pool: cluster1
+Executing commands on the pool pool:
+Queued commands on the pool pool:
+
+$ dci-queue remove-pool pool
+```
+
+- How to unschedule DCI Queue Job
+```
+$ dci-queue list pool
+Resources on the pool pool: cluster1
+Available resources on the pool pool: 
+Executing commands on the pool pool:
+ 9 [cluster1]: env DCI_QUEUE=pool RES=cluster1 KUBECONFIG=/var/lib/dci-openshift-app-agent/kubeconfig /usr/share/dci-pipeline/dci-pipeline-helper oneshot-container oneshot-helmchart kbpc-check (wd: /var/lib/dci-openshift-app-agent/alex-oneshot-dci-pipeline)
+Queued commands on the pool pool:
+
+$ dci-queue unschedule pool 9
+$ dci-queue list pool
+Resources on the pool pool: cluster1
+Available resources on the pool pool: cluster1
+Executing commands on the pool pool:
+Queued commands on the pool pool:
+```
+

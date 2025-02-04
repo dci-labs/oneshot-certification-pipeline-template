@@ -21,8 +21,7 @@
     dci_tags: ["oneshot", "helmchart", "helmchart-pr", "step2"]
     dci_workarounds: []
 
-    # docker auth and backend access
-    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    # backend access
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     organization_id: 12345678
@@ -34,6 +33,8 @@
 
     # run helmchart tests and generate report.yaml
     do_chart_verifier: true
+    # partner_name is Container Registry Namespace or vendor.label from API below
+    # curl -X GET "https://catalog.redhat.com/api/containers/v1/vendors/org-id/12345678" --silent| jq -r '.label'
     partner_name: "user1"
     partner_email: "user1@email.com"
     github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
@@ -41,7 +42,7 @@
     # create helmchart cert project at connect
     helmchart_to_certify:
       - repository: "https://github.com/myuser/yingoneshotchart"
-        short_description: "This is a test for one shot automation together with container+chart+helmchart-pr"
+        short_description: "Add 50+ characters are mandatory for helmchart short description"
         chart_name: "yingoneshotchart"
         create_helmchart_project: true
         pyxis_product_lists:
@@ -56,7 +57,10 @@
         #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
         #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
         deploy_chart: true
+        # -c=skipped cleanup e.g. teardown the CNF deployment and leave it running
+        # -W=WebCatalogOnly - meaning only report.yaml will copy the charts/repo
         flags: "-c -W --helm-install-timeout 5m0s"
+        # when create_pr is true, it will send PR to https://github.com/openshift-helm-charts/charts
         create_pr: true
 
     # update the cert project for helm chart
@@ -64,7 +68,7 @@
       # helmchart
       email_address: "email@email.com"
       application_categories: "Networking"
-      github_usernames: "email"
+      github_usernames: "email" # a real github user that requires by charts workflow for approval
       long_description: "This is a long 100+ characters description about this sample chart"
       distribution_method: "undistributed"
       distribution_instructions: "Instruction how to get this helm-chart"

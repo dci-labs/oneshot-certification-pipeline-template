@@ -20,23 +20,22 @@
     dci_tags: ["helmchart", "create-helmchart", "attach-pl", "e2e"]
     dci_workarounds: []
 
-    # docker auth and backend access
-    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    # backend access
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     # custom settings
     check_for_existing_projects: true
     organization_id: 12345678
-    page_size: 200
+    #page_size: 200
 
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
 
     helmchart_to_certify:
-      - repository: "https://github.com/myuser/testchartpr1"
-        short_description: "This is a short description testchartprrrrrrrrrrrrrrrr"
-        chart_name: "testchartpr1"
+      - repository: "https://github.com/myuser/testchart"
+        short_description: "Add 50+ characters are mandatory for helmchart short description"
+        chart_name: "testchart"
         create_helmchart_project: true
         pyxis_product_lists:
           - "xxx"

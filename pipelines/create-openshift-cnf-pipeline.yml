@@ -19,8 +19,7 @@
     dci_tags: ["openshift-cnf", "vendor-validated", "create-openshift-cnf"]
     dci_workarounds: []
 
-    # docker auth and backend access
-    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
+    # backend access
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     # custom settings
