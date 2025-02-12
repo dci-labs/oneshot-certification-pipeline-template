@@ -1,5 +1,5 @@
 ---
-# Recertify existing container projects for new container images:preflight check, submit, auto-publish and verify publification status
+# Recertify existing container projects for new container image release
 - name: container-recertification
   stage: container
   topic: OCP-4.16
@@ -16,12 +16,11 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["preflight","container","async", "parallel", "recertify"]
+    dci_tags: ["preflight", "container", "parallel", "recertify"]
     dci_workarounds: []
 
     # custom setting
     organization_id: 12345678
-    # page_size: 200
 
     # docker auth and backend access
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"

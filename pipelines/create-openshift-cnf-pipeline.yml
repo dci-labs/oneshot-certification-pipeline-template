@@ -1,5 +1,6 @@
 ---
 # Create openshift-cnf(vendor validate project) and attach product-listing
+# This can be combined with CertSuite test into one DCI pipeline template to upload results.tar
 - name: create-openshift-cnf
   stage: workload
   topic: OCP-4.16
@@ -23,9 +24,7 @@
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     # custom settings
-    check_for_existing_projects: true
     organization_id: 12345678
-    # page_size: 200
 
     # reduce the job duration
     do_must_gather: false

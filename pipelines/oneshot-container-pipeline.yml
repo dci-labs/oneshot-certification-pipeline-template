@@ -34,7 +34,7 @@
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
-    preflight_run_health_check: false
+    preflight_run_health_check: true
 
     # test container images in parallel 
     do_container_parallel_test: true

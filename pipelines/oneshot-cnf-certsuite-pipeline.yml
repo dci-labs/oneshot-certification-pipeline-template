@@ -1,8 +1,8 @@
 ---
-# Run K8s Best practice Certification Suite which can be used for preliminary or normal checking. 
-- name: kbp-certsuite-test
-  stage: workload
-  prev_stages: [ocp-upgrade, ocp]
+# Create CNF Project and Run CertSuite KBPC and upload results.tar to CWE CNF Project (CertOPS) 
+- name: oneshot-cnf-certsuite
+  stage: certsuite-upload
+  prev_stages: oneshot-helmchart
   topic: OCP-4.16
   ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
   ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
@@ -17,21 +17,39 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["chart-kbpc", "helmchart", "kbpc-v5.4.2", "certsuite"]
+    dci_tags: ["cnf-project", "cwe-upload", "kbpc-v5.4.2", "certsuite"]
     dci_workarounds: []
 
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
 
+    organization_id: 15451045
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+    
+    cnf_to_certify:
+      - cnf_name: "MyCNF CertSuite on OCP4.16"
+        create_cnf_project: true
+        pyxis_product_lists:
+          - "xxx"
+
+    cert_settings:
+      email_address: "email@email.com"
+
+    # CWE kbpc upload test
+    # kbpc_cwe_project_id: "111111"
+    # Create cwe-api-token from here https://rhcert.connect.redhat.com/api-key#/token
+    kbpc_cwe_apikey_path: "/var/lib/dci-openshift-app-agent/cwe-apikey.txt"
+
     # Certsuite setup
     do_certsuite: true
+    # To upload test results.tar to CNF Project via CWE, mimimum kbpc must >="v5.4.2"
     kbpc_version: "v5.4.2"
     kbpc_test_labels: common,telco,extended
     kbpc_test_config:
       - namespace: oneshot
         targetpodlabels:
-          - app=oneshot
+          - app=qa
         targetoperatorlabels: []
         target_crds: []
         exclude_connectivity_regexp: ""
