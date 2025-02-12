@@ -17,16 +17,14 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["helmchart", "create-helmchart", "attach-pl", "e2e"]
+    dci_tags: ["create-helmchart", "attach-pl"]
     dci_workarounds: []
 
     # backend access
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     # custom settings
-    check_for_existing_projects: true
     organization_id: 12345678
-    #page_size: 200
 
     # reduce the job duration
     do_must_gather: false

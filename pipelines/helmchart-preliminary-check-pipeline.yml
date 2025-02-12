@@ -20,20 +20,14 @@
     dci_tags: ["helmchart","chart-verifier","report.yaml", "no-pr"]
     dci_workarounds: []
 
-    # docker auth and backend access
-    partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
-    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
-
+    # Reduce Job Durations
     do_must_gather: false
     check_workload_api: false
-    #dci_openshift_app_ns: oneshot # if define cnf namespace here, it will tear down the CNF
 
-    # helmchart report.yaml
     do_chart_verifier: true
-
     partner_name: "user1"
     partner_email: "user1@email.com"
-    github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
+    #github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
     dci_charts:
       - name: oneshotchart
