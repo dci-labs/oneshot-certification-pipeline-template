@@ -33,13 +33,11 @@
     check_for_existing_projects: true
     organization_id: 12345678
 
-    # check if this container project is already certified when set to false
-    preflight_test_certified_image: true
-
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
-    preflight_run_health_check: true
+    preflight_test_certified_image: true
+    preflight_run_health_check: false
 
     # test container images in parallel 
     do_container_parallel_test: true
