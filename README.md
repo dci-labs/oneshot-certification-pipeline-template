@@ -65,7 +65,7 @@ Setup completed successfully for pipeline: alex-oneshot-dci-pipeline
 ## Launching a DCI job with dci-pipeline-schedule
 
 ```ShellSession
-$ export KUBECONFIG=/var/lib/dci-openshift-app-agent/kubeconfig
+$ export KUBECONFIG=~/my-kubeconfig/kubeconfig
 ```
 
 To run creating container project, update, attach and submit: 
