@@ -17,14 +17,17 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["cnf-project", "cwe-upload", "kbpc-v5.4.2", "certsuite"]
+    dci_tags: ["cnf-project", "cwe-upload", "kbpc-v5.4.6", "certsuite"]
     dci_workarounds: []
 
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
 
-    organization_id: 15451045
+    # organization_id is required to get partner_name automatic
+    organization_id: 12345678
+
+    # Backend Access API Key
     pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
     
     cnf_to_certify:
@@ -44,7 +47,7 @@
     # Certsuite setup
     do_certsuite: true
     # To upload test results.tar to CNF Project via CWE, mimimum kbpc must >="v5.4.2"
-    kbpc_version: "v5.4.2"
+    kbpc_version: "v5.4.6"
     kbpc_test_labels: common,telco,extended
     kbpc_test_config:
       - namespace: oneshot
