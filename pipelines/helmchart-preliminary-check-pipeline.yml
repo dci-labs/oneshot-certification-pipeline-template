@@ -20,12 +20,14 @@
     dci_tags: ["helmchart","chart-verifier","report.yaml", "no-pr"]
     dci_workarounds: []
 
+    # organization_id is required to get partner_name automatic
+    organization_id: 12345678
+
     # Reduce Job Durations
     do_must_gather: false
     check_workload_api: false
 
     do_chart_verifier: true
-    partner_name: "user1"
     partner_email: "user1@email.com"
     #github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 

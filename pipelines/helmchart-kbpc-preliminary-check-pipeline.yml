@@ -20,13 +20,15 @@
     dci_tags: ["chart-kbpc", "helmchart", "kbpc-v5.4.2", "Certsuite", "combo"]
     dci_workarounds: []
 
+    # organization_id is required to get partner_name automatic
+    organization_id: 12345678
+
     # reduce the job duration
     do_must_gather: false
     check_workload_api: false
 
     # run helmchart tests and generate report.yaml
     do_chart_verifier: true
-    partner_name: "user1" # part_name is the name of Container Registry Namespace from connected.redhat.com
     partner_email: "user1@email.com"
     #github_token_path: "/var/lib/dci-openshift-app-agent/github-token.txt"
 
