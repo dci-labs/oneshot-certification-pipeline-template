@@ -71,13 +71,13 @@ $ export KUBECONFIG=~/my-kubeconfig/kubeconfig
 To run creating container project, update, attach and submit: 
 
 ```ShellSession
-$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule create-container-e2e
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule container-certification
 ```
 
 To run only the workload chart-verifer without PR trigger (report.yaml):
 
 ```ShellSession
-$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule test-helmchart-nopr
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule helmchart-preliminary-check
 ```
 
 Output:
@@ -111,6 +111,13 @@ To run the workload create openshift-cnf vendor-validate:
 ```ShellSession
 $ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule create-openshift-cnf
 ```
+
+To run the workload preliminary for helmchart and CertSuite test:
+
+```ShellSession
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule helmchart-kbpc-preliminary
+```
+
 ## How to use parallel feature when test conainter with preflight
 To use this parallel feature to run preflight check the containers, there are two parameters that you can use to add them into any DCI Pipeline settings that using `preflight` to check/scan for containers.
 You can enable this feature by add them as following:
@@ -118,7 +125,7 @@ You can enable this feature by add them as following:
 test containers in parallel:
 ```yaml
 ---
-# Prelight check the container images only
+# Prelight check the container images without submit results to backend
 - name: container-preliminary-check
   stage: container
   topic: OCP-4.16
@@ -135,16 +142,11 @@ test containers in parallel:
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["preliminary-check", "submision","preflight","container","async", "parallel"]
+    dci_tags: ["preliminary-check","preflight","container","parallel"]
     dci_workarounds: []
-
-    # custom setting
-    organization_id: 12345678
-    # page_size: 200
 
     # docker auth and backend access
     partner_creds: "/var/lib/dci-openshift-app-agent/demo-auth.json"
-    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
 
     # Optional, provide it if your registry is self-signed
     # If registry is private and TLS enabled, it's mandatory
@@ -156,7 +158,7 @@ test containers in parallel:
     preflight_test_certified_image: true
     preflight_run_health_check: false
 
-    # test container recertify in parallel
+    # test container images in parallel
     do_container_parallel_test: true
     max_images_per_batch: 2
 
@@ -172,17 +174,6 @@ test containers in parallel:
       - container_image: "quay.io/user1/demo-parallel-x7:{{ certify_image_tag }}"
       - container_image: "quay.io/user1/demo-parallel-x8:{{ certify_image_tag }}"
       - container_image: "quay.io/user1/demo-parallel-x9:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x10:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x11:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x12:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x13:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x14:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x15:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x16:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x17:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x18:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x19:{{ certify_image_tag }}"
-      - container_image: "quay.io/user1/demo-parallel-x20:{{ certify_image_tag }}"
 
   use_previous_topic: true
   inputs:
@@ -204,7 +195,7 @@ What it is going to do is:
 - Finally with create_pr is true, then it will copy report.yaml and PR request to charts repo and doing Merge-Request to the production and publish the helm chart
 
 ```
-$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule oneshot-container oneshot-helmchart
+$ KUBECONFIG=$KUBECONFIG dci-pipeline-schedule oneshot-container oneshot-helmchart oneshot-cnf-certsuite
 ```
 
 ## DCI Pipeline templates info
