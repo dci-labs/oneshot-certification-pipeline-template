@@ -17,7 +17,7 @@
     dci_gits_to_components:
       - ~/oneshot-certification-pipeline-template
     dci_local_log_dir: ~/upload-errors
-    dci_tags: ["chart-kbpc", "helmchart", "kbpc-v5.4.6", "Certsuite", "combo"]
+    dci_tags: ["chart-kbpc", "helmchart", "kbpc-v5.5.2", "Certsuite", "combo"]
     dci_workarounds: []
 
     # reduce the job duration
@@ -43,7 +43,7 @@
 
     # Certsuite setup
     do_certsuite: true
-    kbpc_version: "v5.4.6"
+    kbpc_version: "v5.5.2"
     kbpc_test_labels: common,telco,extended
     kbpc_test_config:
       - namespace: oneshot
@@ -54,7 +54,7 @@
         exclude_connectivity_regexp: ""
     kbpc_allow_preflight_insecure: false
     kbpc_enable_xml_creation: true
-    kbpc_non_intrusive_only: true
+    kbpc_intrusive: false
     kbpc_log_level: trace
   use_previous_topic: true
   inputs:
