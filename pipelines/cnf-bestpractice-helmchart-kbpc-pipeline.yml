@@ -1,0 +1,80 @@
+---
+# Create CNF Project,chart-verifier(deploy) and Run CertSuite KBPC and upload results.tar to CWE CNF Project (CertOPS) 
+- name: cnf-bestpractice-helmchart-kbpc
+  stage: certsuite-upload
+  prev_stages: oneshot-helmchart
+  topic: OCP-4.16
+  ansible_playbook: /usr/share/dci-openshift-app-agent/dci-openshift-app-agent.yml
+  ansible_cfg: ~/oneshot-certification-pipeline-template/pipelines/ansible.cfg
+  ansible_inventory: ~/oneshot-certification-pipeline-template/inventories/@QUEUE/@RESOURCE-workload.yml
+  dci_credentials: ~/.config/dci-pipeline/dci_credentials.yml
+  # This use-case is not needed to use hooks then skip the post-run
+  ansible_skip_tags:
+    - post-run
+  ansible_extravars:
+    dci_cache_dir: ~/dci-cache-dir
+    dci_config_dir: ~/oneshot-certification-pipeline-template/ocp-workload
+    dci_gits_to_components:
+      - ~/oneshot-certification-pipeline-template
+    dci_local_log_dir: ~/upload-errors
+    dci_tags: ["cnf-project", "helmchart", "cwe-upload", "kbpc-v5.5.2", "certsuite"]
+    dci_workarounds: []
+
+    # reduce the job duration
+    do_must_gather: false
+    check_workload_api: false
+
+    # organization_id is required to get partner_name automatic
+    organization_id: 12345678
+
+    # Backend Access API Key
+    pyxis_apikey_path: "/var/lib/dci-openshift-app-agent/demo-pyxis-apikey.txt"
+    
+    cnf_to_certify:
+      - cnf_name: "MyCNF CertSuite on OCP4.16"
+        create_cnf_project: true
+        pyxis_product_lists:
+          - "xxx"
+
+    cert_settings:
+      email_address: "email@email.com"
+
+    # CWE kbpc upload test
+    # kbpc_cwe_project_id: "111111"
+    # Create cwe-api-token from here https://rhcert.connect.redhat.com/api-key#/token
+    kbpc_cwe_apikey_path: "/var/lib/dci-openshift-app-agent/cwe-apikey.txt"
+
+    # Enable chart-verifier feature
+    do_chart_verifier: true
+    dci_charts:
+      - name: oneshotchart
+        chart_file: https://myuser.github.io/oneshotchart/oneshotchart-0.1.4.tgz
+        # Remote, locally and with multi-values
+        #values_file:
+        #  - https://raw.githubusercontent.com/ansvu/samplechart/main/samplechart/values.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values1.yaml
+        #  - /var/lib/dci-openshift-app-agent/samplechart/mycustom_values2.yaml
+        deploy_chart: true
+        flags: "-c -W --helm-install-timeout 5m0s"
+        create_pr: false
+
+    # Certsuite setup
+    do_certsuite: true
+    # To upload test results.tar to CNF Project via CWE, mimimum kbpc must >="v5.4.2"
+    kbpc_version: "v5.5.2"
+    kbpc_test_labels: common,telco,extended
+    kbpc_test_config:
+      - namespace: oneshot
+        targetpodlabels:
+          - app=qa
+        targetoperatorlabels: []
+        target_crds: []
+        exclude_connectivity_regexp: ""
+    kbpc_allow_preflight_insecure: false
+    kbpc_enable_xml_creation: true
+    kbpc_intrusive: false
+    kbpc_log_level: trace
+  use_previous_topic: true
+  inputs:
+    kubeconfig: kubeconfig_path
+...
